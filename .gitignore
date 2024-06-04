@@ -20,3 +20,14 @@
 # Go workspace file
 go.work
 go.work.sum
+
+# dotenv
+.env
+
+# configs
+config.yaml
+config.yml
+
+# tempararily disable workflow and releaser
+.github/workflows
+.goreleaser.yml
