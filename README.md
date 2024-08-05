@@ -13,11 +13,11 @@ coming soon...
 coming soon...
 
 ## TODO
-- [ ] Create a config parser and example config template
-- [ ] Create a logger
-- [ ] Create a notifier for anormally states
+- [x] Create a config parser and example config template
+- [x] Create a logger
 - [ ] Create an api endpoint (or socket)
 - [ ] Add disk monitoring
 - [ ] Add system load average monitoring
 - [ ] Add network monitoring
 - [ ] Add system uptime monitoring
+- [ ] Create a notifier for anormally states

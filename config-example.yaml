@@ -1,0 +1,22 @@
+api:
+  host: localhost
+  port: 8080
+
+disk:
+  filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs"]
+  partuselimit: 90
+
+cpu:
+  loadlimit: 4
+  checkinterval: 5
+
+memory:
+  uselimit: 90
+  checkinterval: 5
+
+network:
+  interfaces: ["eth0", "eth1"]
+  checkinterval: 5
+
+alarmwebhookurl: "http://example.com/webhook"
+servernickname: "server1"
