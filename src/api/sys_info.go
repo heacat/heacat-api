@@ -36,5 +36,6 @@ func sys_info(c *gin.Context) {
 		"cpu":              get_cpu_info(),
 		"gpu":              get_gpu_info(),
 		"memory":           get_mem_info("GB"),
+		"network":          get_network_info(),
 	})
 }
