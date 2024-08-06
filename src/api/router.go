@@ -22,7 +22,10 @@ func InitAPI() {
 
 	router := gin.Default()
 
-	router.GET("/api/v1/cpu", cpu_info)
+	router.GET("/api/v1/cpu", func (c *gin.Context) {
+		cpu := get_cpu_info()
+		c.JSON(200, gin.H{"cpu": cpu})
+	})
 	router.GET("/api/v1/disk", disk_info)
 	router.GET("/api/v1/memory", memory_info)
 	router.GET("/api/v1/network", network_info)

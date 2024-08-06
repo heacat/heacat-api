@@ -1,17 +1,21 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-
 	"github.com/shirou/gopsutil/v4/cpu"
 )
 
-func cpu_info(c *gin.Context) {
-	info, _ := cpu.Info()
-	percent, _ := cpu.Percent(0, false)
+type cpu_info_t struct {
+	Name       string  `json:"name"`
+	TotalCores int     `json:"totalcores"`
+	Frequency  float64 `json:"frequency"`
+}
 
-	c.JSON(200, gin.H{
-		"info":    info,
-		"percent": percent,
-	})
+func get_cpu_info() cpu_info_t {
+	cpu, _ := cpu.Info()
+	cpu_info := cpu_info_t{
+		Name:       cpu[0].ModelName,
+		TotalCores: len(cpu),
+		Frequency:  cpu[0].Mhz,
+	}
+	return cpu_info
 }
