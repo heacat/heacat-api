@@ -1,4 +1,4 @@
-package api
+package utils
 
 import (
 	"fmt"
@@ -22,7 +22,7 @@ type sys_info_t struct {
 	Disks           []disk_info_t      `json:"disks"`
 }
 
-func sys_info() sys_info_t {
+func GetSysInfo() sys_info_t {
 	os_name_r, _ := regexp.Compile(`NAME="(.+)"`)
 	os_name_pretty_r, _ := regexp.Compile(`PRETTY_NAME="(.+)"`)
 	kernel_version_r, _ := regexp.Compile(`Linux\sversion\s([a-zA-Z0-9\.\-\_]+)\s`)
@@ -43,11 +43,11 @@ func sys_info() sys_info_t {
 		OsNamePretty:    os_name_pretty_r.FindStringSubmatch(string(os_release))[1],
 		KernelVersion:   kernel_version_r.FindStringSubmatch(string(kernel))[1],
 		Uptime:          fmt.Sprintf("%d days, %d hours, %d minutes", uptime_days, uptime_hours, uptime_minutes),
-		PackageManagers: get_pkg_info(),
-		Cpu:             get_cpu_info(),
-		Gpu:             get_gpu_info(),
-		Memory:          get_mem_info("GB"),
-		Network:         get_network_info(),
-		Disks:           get_disk_info(),
+		PackageManagers: GetPkgInfo(),
+		Cpu:             GetCPUInfo(),
+		Gpu:             GetGPUInfo(),
+		Memory:          GetMemoryInfo("GB"),
+		Network:         GetNetworkInfo(),
+		Disks:           GetDiskInfo(),
 	}
 }

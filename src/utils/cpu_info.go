@@ -1,4 +1,4 @@
-package api
+package utils
 
 import (
 	"github.com/shirou/gopsutil/v4/cpu"
@@ -10,7 +10,7 @@ type cpu_info_t struct {
 	Frequency  float64 `json:"frequency"`
 }
 
-func get_cpu_info() cpu_info_t {
+func GetCPUInfo() cpu_info_t {
 	cpu, _ := cpu.Info()
 	cpu_info := cpu_info_t{
 		Name:       cpu[0].ModelName,

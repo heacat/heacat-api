@@ -1,4 +1,4 @@
-package api
+package utils
 
 import "github.com/shirou/gopsutil/v4/net"
 
@@ -10,7 +10,7 @@ type network_info_t struct {
 	Flags     []string              `json:"flags"`
 }
 
-func get_network_info() []network_info_t {
+func GetNetworkInfo() []network_info_t {
 	networks, _ := net.Interfaces()
 	var network_info []network_info_t
 

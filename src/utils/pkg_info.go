@@ -1,4 +1,4 @@
-package api
+package utils
 
 import (
 	"os/exec"
@@ -10,7 +10,7 @@ type package_managers struct {
 	Count   int    `json:"count"`
 }
 
-func get_pkg_info() []package_managers {
+func GetPkgInfo() []package_managers {
 	detected := []package_managers{}
 	managers := []string{"apt", "dnf", "yum", "zypper", "pacman", "emerge", "apk", "pkg", "kpkg", "swupd", "flatpak", "snap", "nix", "brew"}
 

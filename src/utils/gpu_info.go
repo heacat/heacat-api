@@ -1,4 +1,4 @@
-package api
+package utils
 
 import (
 	"os/exec"
@@ -13,7 +13,7 @@ type gpu_info_t struct {
 	UsedModules   string `json:"used_modules"`
 }
 
-func get_gpu_info() []gpu_info_t {
+func GetGPUInfo() []gpu_info_t {
 	var gpu_list []gpu_info_t
 	gpu_name_r, _ := regexp.Compile(`(VGA\scompatible\scontroller:|3D\scontroller:)\s([\w\s\,\.\[\]\/\(\/\)\-])+\n`)
 	gpu_used_module_r, _ := regexp.Compile(`(Kernel\sdriver\sin\suse:\s)([\w\s\,\.\[\]\/\(\/\)\-])+\n`)

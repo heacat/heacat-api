@@ -1,4 +1,4 @@
-package api
+package utils
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ type mem_info_t struct {
 	} `json:"swap"`
 }
 
-func convert_to_unit(value uint64, unit string) string {
+func convertToUnit(value uint64, unit string) string {
 	switch unit {
 	case "GB":
 		value = value / 1024 / 1024 / 1024
@@ -42,7 +42,7 @@ func convert_to_unit(value uint64, unit string) string {
 	return strconv.FormatUint(value, 10) + unit
 }
 
-func get_mem_info(unit string) mem_info_t {
+func GetMemoryInfo(unit string) mem_info_t {
 	vmemStat, err := mem.VirtualMemory()
 	if err != nil {
 		fmt.Printf("Failed to get virtual memory stats: %v\n", err)
@@ -63,22 +63,22 @@ func get_mem_info(unit string) mem_info_t {
 			Cached    string `json:"cached"`
 			Available string `json:"available"`
 		}{
-			Total:     convert_to_unit(vmemStat.Total, unit),
-			Used:      convert_to_unit(vmemStat.Total-vmemStat.Available, unit),
-			Free:      convert_to_unit(vmemStat.Free, unit),
-			Shared:    convert_to_unit(vmemStat.Shared, unit),
-			Buffers:   convert_to_unit(vmemStat.Buffers, unit),
-			Cached:    convert_to_unit(vmemStat.Cached, unit),
-			Available: convert_to_unit(vmemStat.Available, unit),
+			Total:     convertToUnit(vmemStat.Total, unit),
+			Used:      convertToUnit(vmemStat.Total-vmemStat.Available, unit),
+			Free:      convertToUnit(vmemStat.Free, unit),
+			Shared:    convertToUnit(vmemStat.Shared, unit),
+			Buffers:   convertToUnit(vmemStat.Buffers, unit),
+			Cached:    convertToUnit(vmemStat.Cached, unit),
+			Available: convertToUnit(vmemStat.Available, unit),
 		},
 		Swap: struct {
 			Total string `json:"total"`
 			Used  string `json:"used"`
 			Free  string `json:"free"`
 		}{
-			Total: convert_to_unit(swapStat.Total, unit),
-			Used:  convert_to_unit(swapStat.Used, unit),
-			Free:  convert_to_unit(swapStat.Free, unit),
+			Total: convertToUnit(swapStat.Total, unit),
+			Used:  convertToUnit(swapStat.Used, unit),
+			Free:  convertToUnit(swapStat.Free, unit),
 		},
 	}
 	return mem_info

@@ -7,7 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/heacat/heacat-api/src/config"
+	"github.com/heacat/heacat-api/src/control"
 	"github.com/heacat/heacat-api/src/logger"
+	"github.com/heacat/heacat-api/src/utils"
 )
 
 type registered_routes struct {
@@ -23,29 +25,32 @@ func InitAPI() {
 	router := gin.Default()
 
 	router.GET("/api/v1/cpu", func(c *gin.Context) {
-		cpu := get_cpu_info()
+		cpu := utils.GetCPUInfo()
 		c.JSON(200, gin.H{"cpu": cpu})
 	})
 	router.GET("/api/v1/gpu", func(ctx *gin.Context) {
-		gpu := get_gpu_info()
+		gpu := utils.GetGPUInfo()
 		ctx.JSON(200, gin.H{"gpu": gpu})
 	})
 	router.GET("/api/v1/disk", func(ctx *gin.Context) {
-		disk := get_disk_info()
+		disk := utils.GetDiskInfo()
 		ctx.JSON(200, gin.H{"disk": disk})
 	})
 	router.GET("/api/v1/memory", func(c *gin.Context) {
-		memory := get_mem_info("MiB")
+		memory := utils.GetMemoryInfo("MiB")
 		c.JSON(200, gin.H{"memory": memory})
 	})
 	router.GET("/api/v1/network", func(ctx *gin.Context) {
-		network := get_network_info()
+		network := utils.GetNetworkInfo()
 		ctx.JSON(200, gin.H{"network": network})
 	})
 	router.GET("/api/v1/sysinfo", func(ctx *gin.Context) {
-		sysinfo := sys_info()
+		sysinfo := utils.GetSysInfo()
 		ctx.JSON(200, gin.H{"sysinfo": sysinfo})
 	})
+	router.GET("/api/v1/check/disk", control.CheckDiskStatus)
+	router.GET("/api/v1/check/memory", control.CheckMemoryStatus)
+	router.GET("/api/v1/check/cpu", control.CheckCPUStatus)
 	router.GET("/", func(c *gin.Context) {
 		b, err := json.Marshal(routes)
 		if err != nil {
