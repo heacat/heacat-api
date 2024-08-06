@@ -78,7 +78,6 @@ func sys_info(c *gin.Context) {
 	os_name_r, _ := regexp.Compile(`NAME="(.+)"`)
 	os_name_pretty_r, _ := regexp.Compile(`PRETTY_NAME="(.+)"`)
 	kernel_version_r, _ := regexp.Compile(`Linux\sversion\s([a-zA-Z0-9\.\-\_]+)\s`)
-	gpu_name_r, _ := regexp.Compile(`((VGA compatible|3D)\scontroller:\s)([\w\s\,\.\[\]\/\(\/\)\-])+\s`)
 	memory_free_r, _ := regexp.Compile(`MemFree:\s+([0-9]+)\skB`)
 	memory_total_r, _ := regexp.Compile(`MemTotal:\s+([0-9]+)\skB`)
 
@@ -86,7 +85,6 @@ func sys_info(c *gin.Context) {
 	os_release, _ := os.ReadFile("/etc/os-release")
 	kernel, _ := os.ReadFile("/proc/version")
 	uptime, _ := os.ReadFile("/proc/uptime")
-	gpu, _ := exec.Command("lspci").Output()
 	memory, _ := os.ReadFile("/proc/meminfo")
 
 	uptime_seconds, _ := strconv.ParseFloat(strings.Split(string(uptime), " ")[0], 64)
@@ -94,20 +92,15 @@ func sys_info(c *gin.Context) {
 	uptime_hours := int(uptime_seconds/3600) % 24
 	uptime_minutes := int(uptime_seconds/60) % 60
 
-	gpu_match := []string{}
-	for _, element := range gpu_name_r.FindAllStringSubmatch(string(gpu), -1) {
-		gpu_match = append(gpu_match, element[0])
-	}
-
 	c.JSON(200, gin.H{
-		"hostname":         string(hostname),
+		"hostname":         hostname,
 		"os_name":          os_name_r.FindStringSubmatch(string(os_release))[1],
 		"os_name_pretty":   os_name_pretty_r.FindStringSubmatch(string(os_release))[1],
 		"kernel_version":   kernel_version_r.FindStringSubmatch(string(kernel))[1],
 		"uptime":           fmt.Sprintf("%d days, %d hours, %d minutes", uptime_days, uptime_hours, uptime_minutes),
 		"package_managers": detect_package_managers(),
 		"cpu":              get_cpu_info().Name,
-		"gpu":              gpu_match,
+		"gpu":              get_gpu_info(),
 		"memory":           fmt.Sprintf("%s kB / %s kB", memory_free_r.FindStringSubmatch(string(memory))[1], memory_total_r.FindStringSubmatch(string(memory))[1]),
 	})
 }

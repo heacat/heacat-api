@@ -22,9 +22,13 @@ func InitAPI() {
 
 	router := gin.Default()
 
-	router.GET("/api/v1/cpu", func (c *gin.Context) {
+	router.GET("/api/v1/cpu", func(c *gin.Context) {
 		cpu := get_cpu_info()
 		c.JSON(200, gin.H{"cpu": cpu})
+	})
+	router.GET("/api/v1/gpu", func(ctx *gin.Context) {
+		gpu := get_gpu_info()
+		ctx.JSON(200, gin.H{"gpu": gpu})
 	})
 	router.GET("/api/v1/disk", disk_info)
 	router.GET("/api/v1/memory", memory_info)

@@ -31,3 +31,4 @@ config.yml
 # tempararily disable workflow and releaser
 .github/workflows
 .goreleaser.yml
+.tmp
