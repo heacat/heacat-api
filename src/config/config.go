@@ -12,8 +12,10 @@ var Config Config_t
 
 type Config_t struct {
 	Disk struct {
-		FileSystems  []string
-		PartUseLimit int
+		FileSystems   []string
+		PartUseLimit  int
+		CheckInterval int
+		Unit          string
 	}
 	Cpu struct {
 		LoadLimit     float32
@@ -22,6 +24,7 @@ type Config_t struct {
 	Memory struct {
 		UseLimit      int
 		CheckInterval int
+		Unit          string
 	}
 	Network struct {
 		Interfaces    []string

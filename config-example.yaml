@@ -5,6 +5,8 @@ api:
 disk:
   filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs"]
   partuselimit: 90
+  checkinterval: 5
+  unit: "GB"
 
 cpu:
   loadlimit: 4
@@ -13,6 +15,7 @@ cpu:
 memory:
   uselimit: 90
   checkinterval: 5
+  unit: "GB"
 
 network:
   interfaces: ["eth0", "eth1"]

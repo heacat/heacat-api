@@ -7,24 +7,27 @@ import (
 )
 
 type disk_status struct {
-	Usage      int    `json:"usage"`
-	Available  int    `json:"available"`
-	Total      int    `json:"total"`
+	Partition  string `json:"partition"`
+	Usage      string `json:"usage"`
+	Available  string `json:"available"`
+	Total      string `json:"total"`
 	Percentage int    `json:"percentage"`
-	Message    string `json:"message"`
+	Mountpoint string `json:"mountpoint"`
 }
 
 func CheckDiskStatus(c *gin.Context) {
-	disks := utils.GetDiskInfo()
+	disks := utils.GetDiskInfo(config.Config.Disk.Unit)
 	var anormal_disk_status []disk_status
 	anormal_disk_status_exists := "Disk usage is normal"
 
 	for _, disk := range disks {
 		if disk.Percent >= float64(config.Config.Disk.PartUseLimit) {
 			anormal_disk_status = append(anormal_disk_status, disk_status{
-				Usage:      int(disk.Used),
-				Available:  int(disk.Available),
-				Total:      int(disk.Size),
+				Partition:  disk.Filesystem,
+				Usage:      disk.Used,
+				Available:  disk.Available,
+				Total:      disk.Size,
+				Mountpoint: disk.Mountpoint,
 				Percentage: int(disk.Percent),
 			})
 			anormal_disk_status_exists = "Anormal disk usage detected"

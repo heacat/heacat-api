@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/heacat/heacat-api/src/config"
 )
 
 type sys_info_t struct {
@@ -46,8 +48,8 @@ func GetSysInfo() sys_info_t {
 		PackageManagers: GetPkgInfo(),
 		Cpu:             GetCPUInfo(),
 		Gpu:             GetGPUInfo(),
-		Memory:          GetMemoryInfo("GB"),
+		Memory:          GetMemoryInfo(config.Config.Memory.Unit),
 		Network:         GetNetworkInfo(),
-		Disks:           GetDiskInfo(),
+		Disks:           GetDiskInfo(config.Config.Disk.Unit),
 	}
 }

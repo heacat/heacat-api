@@ -33,11 +33,11 @@ func InitAPI() {
 		ctx.JSON(200, gin.H{"gpu": gpu})
 	})
 	router.GET("/api/v1/disk", func(ctx *gin.Context) {
-		disk := utils.GetDiskInfo()
+		disk := utils.GetDiskInfo(config.Config.Disk.Unit)
 		ctx.JSON(200, gin.H{"disk": disk})
 	})
 	router.GET("/api/v1/memory", func(c *gin.Context) {
-		memory := utils.GetMemoryInfo("MiB")
+		memory := utils.GetMemoryInfo(config.Config.Memory.Unit)
 		c.JSON(200, gin.H{"memory": memory})
 	})
 	router.GET("/api/v1/network", func(ctx *gin.Context) {
@@ -65,7 +65,7 @@ func InitAPI() {
 		name := strings.Split(item.Path, "/")
 		if len(name) > 0 && name[len(name)-1] != "" {
 			new := registered_routes{
-				Name: name[len(name)-1],
+				Name: name[len(name)-2] + "/" + name[len(name)-1],
 				Path: "http://" + config.Config.API.Host + ":" + strconv.Itoa(config.Config.API.Port) + item.Path,
 			}
 			routes = append(routes, new)
