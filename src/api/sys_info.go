@@ -34,6 +34,6 @@ func sys_info(c *gin.Context) {
 		"package_managers": get_pkg_info(),
 		"cpu":              get_cpu_info(),
 		"gpu":              get_gpu_info(),
-		"memory":           get_mem_info(),
+		"memory":           get_mem_info("GB"),
 	})
 }

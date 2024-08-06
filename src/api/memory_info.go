@@ -1,56 +1,84 @@
 package api
 
 import (
-	"os"
-	"os/exec"
-	"regexp"
-	"strings"
+	"fmt"
+	"strconv"
+
+	"github.com/shirou/gopsutil/v4/mem"
 )
 
-type memory_info_t struct {
+type mem_info_t struct {
 	Physical struct {
-		Free  string `json:"free"`
-		Total string `json:"total"`
+		Total     string `json:"total"`
+		Used      string `json:"used"`
+		Free      string `json:"free"`
+		Shared    string `json:"shared"`
+		Buffers   string `json:"buffers"`
+		Cached    string `json:"cached"`
+		Available string `json:"available"`
 	} `json:"physical"`
-	Virtual []struct {
-		Free     string `json:"free"`
-		Total    string `json:"total"`
-		Path     string `json:"path"`
-		Priority string `json:"priority"`
-	} `json:"virtual"`
+	Swap struct {
+		Total string `json:"total"`
+		Used  string `json:"used"`
+		Free  string `json:"free"`
+	} `json:"swap"`
 }
 
-func get_mem_info() memory_info_t {
-	memory_info := memory_info_t{}
+func convert_to_unit(value uint64, unit string) string {
+	if unit == "GB" {
+		value = value / 1024 / 1024 / 1024
+	} else if unit == "GiB" {
+		value = value / 1000 / 1000 / 1000
+	} else if unit == "MB" {
+		value = value / 1024 / 1024
+	} else if unit == "MiB" {
+		value = value / 1000 / 1000
+	} else if unit == "KB" {
+		value = value / 1024
+	} else if unit == "KiB" {
+		value = value / 1000
+	}
+	return strconv.FormatUint(value, 10) + unit
+}
 
-	memory_free_r, _ := regexp.Compile(`MemFree:\s+([0-9]+)\skB`)
-	memory_total_r, _ := regexp.Compile(`MemTotal:\s+([0-9]+)\skB`)
-
-	phy_memory, _ := os.ReadFile("/proc/meminfo")
-
-	virt_memory, _ := exec.Command("swapon", "--noheadings").Output()
-	t_virt_memory := strings.Trim(string(virt_memory), "\n")
-	s_virt_memory := strings.Split(t_virt_memory, "\n")
-
-	memory_info.Physical.Free = memory_free_r.FindStringSubmatch(string(phy_memory))[1] + " kB"
-	memory_info.Physical.Total = memory_total_r.FindStringSubmatch(string(phy_memory))[1] + " kB"
-
-	for _, line := range s_virt_memory {
-		columns := strings.Fields(line)
-		if len(columns) > 1 {
-			memory_info.Virtual = append(memory_info.Virtual, struct {
-				Free     string `json:"free"`
-				Total    string `json:"total"`
-				Path     string `json:"path"`
-				Priority string `json:"priority"`
-			}{
-				Free:     columns[3],
-				Total:    columns[2],
-				Path:     columns[0],
-				Priority: columns[4],
-			})
-		}
+func get_mem_info(unit string) mem_info_t {
+	vmemStat, err := mem.VirtualMemory()
+	if err != nil {
+		fmt.Printf("Failed to get virtual memory stats: %v\n", err)
 	}
 
-	return memory_info
+	swapStat, err := mem.SwapMemory()
+	if err != nil {
+		fmt.Printf("Failed to get swap memory stats: %v\n", err)
+	}
+
+	mem_info := mem_info_t{
+		Physical: struct {
+			Total     string `json:"total"`
+			Used      string `json:"used"`
+			Free      string `json:"free"`
+			Shared    string `json:"shared"`
+			Buffers   string `json:"buffers"`
+			Cached    string `json:"cached"`
+			Available string `json:"available"`
+		}{
+			Total:     convert_to_unit(vmemStat.Total, unit),
+			Used:      convert_to_unit(vmemStat.Total-vmemStat.Available, unit),
+			Free:      convert_to_unit(vmemStat.Free, unit),
+			Shared:    convert_to_unit(vmemStat.Shared, unit),
+			Buffers:   convert_to_unit(vmemStat.Buffers, unit),
+			Cached:    convert_to_unit(vmemStat.Cached, unit),
+			Available: convert_to_unit(vmemStat.Available, unit),
+		},
+		Swap: struct {
+			Total string `json:"total"`
+			Used  string `json:"used"`
+			Free  string `json:"free"`
+		}{
+			Total: convert_to_unit(swapStat.Total, unit),
+			Used:  convert_to_unit(swapStat.Used, unit),
+			Free:  convert_to_unit(swapStat.Free, unit),
+		},
+	}
+	return mem_info
 }

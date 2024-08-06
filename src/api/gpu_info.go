@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -25,7 +24,6 @@ func get_gpu_info() []gpu_info_t {
 
 	for _, pci_id := range strings.Split(string(trim), "\n") {
 		gpu_info, _ := exec.Command("lspci", "-ks", string(pci_id)).Output()
-		fmt.Println(string(pci_id), string(gpu_info))
 		gpu_list = append(gpu_list, gpu_info_t{
 			Name:          strings.Trim(gpu_name_r.FindStringSubmatch(string(gpu_info))[0], "\n"),
 			ID:            string(pci_id),

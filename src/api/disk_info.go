@@ -1,9 +1,11 @@
 package api
 
-import "github.com/gin-gonic/gin"
+type disk_info_t struct {
+	Device string `json:"device"`
+	Size   string `json:"size"`
+	Free   string `json:"free"`
+}
 
-func disk_info(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"disk": "disk",
-	})
+func get_disk_info() []disk_info_t {
+	return []disk_info_t{}
 }
