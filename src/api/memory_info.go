@@ -25,17 +25,18 @@ type mem_info_t struct {
 }
 
 func convert_to_unit(value uint64, unit string) string {
-	if unit == "GB" {
+	switch unit {
+	case "GB":
 		value = value / 1024 / 1024 / 1024
-	} else if unit == "GiB" {
+	case "GiB":
 		value = value / 1000 / 1000 / 1000
-	} else if unit == "MB" {
+	case "MB":
 		value = value / 1024 / 1024
-	} else if unit == "MiB" {
+	case "MiB":
 		value = value / 1000 / 1000
-	} else if unit == "KB" {
+	case "KB":
 		value = value / 1024
-	} else if unit == "KiB" {
+	case "KiB":
 		value = value / 1000
 	}
 	return strconv.FormatUint(value, 10) + unit

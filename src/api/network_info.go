@@ -1,9 +1,11 @@
 package api
 
-import "github.com/gin-gonic/gin"
+type network_info_t struct {
+	Interface string `json:"interface"`
+	IP        string `json:"ip"`
+	MAC       string `json:"mac"`
+}
 
-func network_info(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"network": "network",
-	})
+func get_network_info() []network_info_t {
+	return []network_info_t{}
 }

@@ -32,6 +32,7 @@ func sys_info(c *gin.Context) {
 		"kernel_version":   kernel_version_r.FindStringSubmatch(string(kernel))[1],
 		"uptime":           fmt.Sprintf("%d days, %d hours, %d minutes", uptime_days, uptime_hours, uptime_minutes),
 		"package_managers": get_pkg_info(),
+		"disks":            get_disk_info(),
 		"cpu":              get_cpu_info(),
 		"gpu":              get_gpu_info(),
 		"memory":           get_mem_info("GB"),

@@ -38,7 +38,10 @@ func InitAPI() {
 		memory := get_mem_info("MiB")
 		c.JSON(200, gin.H{"memory": memory})
 	})
-	router.GET("/api/v1/network", network_info)
+	router.GET("/api/v1/network", func(ctx *gin.Context) {
+		network := get_network_info()
+		ctx.JSON(200, gin.H{"network": network})
+	})
 	router.GET("/api/v1/sysinfo", sys_info)
 	router.GET("/", func(c *gin.Context) {
 		b, err := json.Marshal(routes)
