@@ -13,5 +13,6 @@ func main() {
 	// Init config
 	config.InitConfig()
 
+	// Init API
 	api.InitAPI()
 }

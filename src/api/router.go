@@ -31,7 +31,10 @@ func InitAPI() {
 		ctx.JSON(200, gin.H{"gpu": gpu})
 	})
 	router.GET("/api/v1/disk", disk_info)
-	router.GET("/api/v1/memory", memory_info)
+	router.GET("/api/v1/memory", func(c *gin.Context) {
+		memory := get_mem_info()
+		c.JSON(200, gin.H{"memory": memory})
+	})
 	router.GET("/api/v1/network", network_info)
 	router.GET("/api/v1/sysinfo", sys_info)
 	router.GET("/", func(c *gin.Context) {
