@@ -42,7 +42,10 @@ func InitAPI() {
 		network := get_network_info()
 		ctx.JSON(200, gin.H{"network": network})
 	})
-	router.GET("/api/v1/sysinfo", sys_info)
+	router.GET("/api/v1/sysinfo", func(ctx *gin.Context) {
+		sysinfo := sys_info()
+		ctx.JSON(200, gin.H{"sysinfo": sysinfo})
+	})
 	router.GET("/", func(c *gin.Context) {
 		b, err := json.Marshal(routes)
 		if err != nil {
