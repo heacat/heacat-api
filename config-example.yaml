@@ -4,7 +4,7 @@ alarm:
     enabled: true
     token: "123456789:ABCDEF"
     chatid: "-123456789"
-    MessageThreadID: 1
+    messagethreadid: 1
   slack:
     enabled: true
     webhookurl: "http://example.com/webhook"

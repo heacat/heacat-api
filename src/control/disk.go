@@ -38,6 +38,8 @@ func CheckDiskStatus(c *gin.Context) {
 	}
 	if !anormal_disk_status_exists {
 		c.JSON(200, gin.H{"disk": anormal_disk_status, "message": "Disk status is normal"})
+		message := fmt.Sprintf("[%s] [🟢 Info] Disk status is normal", config.Config.Alarm.ServerNickName)
+		notifier.SendMessage(false, "disk", message)
 		return
 	}
 	c.JSON(200, gin.H{"disk": anormal_disk_status, "message": "Anormal disk status found"})
@@ -46,5 +48,5 @@ func CheckDiskStatus(c *gin.Context) {
 	for _, disk := range anormal_disk_status {
 		message += fmt.Sprintf("Partition: %s\nUsage: %s\nAvailable: %s\nTotal: %s\nPercentage: %d\nMountpoint: %s\n--------------------\n", disk.Partition, disk.Usage, disk.Available, disk.Total, disk.Percentage, disk.Mountpoint)
 	}
-	notifier.TelegramNotifier(message)
+	notifier.SendMessage(true, "disk", message)
 }
