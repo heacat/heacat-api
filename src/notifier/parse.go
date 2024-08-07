@@ -21,13 +21,10 @@ func SendMessage(anormalState bool, alarmFrom string, message string) {
 	var alarm *alarm_t
 	switch alarmFrom {
 	case "disk":
-		config.Config.Disk.PartUseLimit = 90
 		alarm = &disk_alarm
 	case "cpu":
-		config.Config.Cpu.LoadLimit = 90
 		alarm = &cpu_alarm
 	case "memory":
-		config.Config.Memory.UseLimit = 90
 		alarm = &memory_alarm
 	default:
 		logger.Log.Error("Invalid alarm type:", alarmFrom)
