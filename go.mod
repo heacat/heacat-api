@@ -5,6 +5,7 @@ go 1.22.2
 require (
 	github.com/dlclark/regexp2 v1.11.4
 	github.com/gin-gonic/gin v1.10.0
+	github.com/go-telegram/bot v1.6.1
 	github.com/shirou/gopsutil/v4 v4.24.7
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.19.0

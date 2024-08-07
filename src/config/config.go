@@ -11,6 +11,23 @@ import (
 var Config Config_t
 
 type Config_t struct {
+	Alarm struct {
+		ServerNickName string
+		Telegram       struct {
+			Enabled         bool
+			Token           string
+			ChatID          string
+			MessageThreadID int
+		}
+		Slack struct {
+			Enabled    bool
+			WebHookURL string
+		}
+	}
+	API struct {
+		Host string
+		Port int
+	}
 	Disk struct {
 		FileSystems   []string
 		PartUseLimit  int
@@ -29,12 +46,6 @@ type Config_t struct {
 	Network struct {
 		Interfaces    []string
 		CheckInterval int
-	}
-	WebHookURL     string
-	ServerNickName string
-	API            struct {
-		Host string
-		Port int
 	}
 }
 

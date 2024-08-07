@@ -1,8 +1,11 @@
 package control
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/heacat/heacat-api/src/config"
+	"github.com/heacat/heacat-api/src/notifier"
 	"github.com/heacat/heacat-api/src/utils"
 )
 
@@ -18,7 +21,7 @@ type disk_status struct {
 func CheckDiskStatus(c *gin.Context) {
 	disks := utils.GetDiskInfo(config.Config.Disk.Unit)
 	var anormal_disk_status []disk_status
-	anormal_disk_status_exists := "Disk usage is normal"
+	anormal_disk_status_exists := false
 
 	for _, disk := range disks {
 		if disk.Percent >= float64(config.Config.Disk.PartUseLimit) {
@@ -30,8 +33,18 @@ func CheckDiskStatus(c *gin.Context) {
 				Mountpoint: disk.Mountpoint,
 				Percentage: int(disk.Percent),
 			})
-			anormal_disk_status_exists = "Anormal disk usage detected"
+			anormal_disk_status_exists = true
 		}
 	}
-	c.JSON(200, gin.H{"disk": anormal_disk_status, "message": anormal_disk_status_exists})
+	if !anormal_disk_status_exists {
+		c.JSON(200, gin.H{"disk": anormal_disk_status, "message": "Disk status is normal"})
+		return
+	}
+	c.JSON(200, gin.H{"disk": anormal_disk_status, "message": "Anormal disk status found"})
+
+	message := fmt.Sprintf("[%s] [🔴 Alert] The following partitions are above the threshold (%d%%):\n--------------------\n", config.Config.Alarm.ServerNickName, config.Config.Disk.PartUseLimit)
+	for _, disk := range anormal_disk_status {
+		message += fmt.Sprintf("Partition: %s\nUsage: %s\nAvailable: %s\nTotal: %s\nPercentage: %d\nMountpoint: %s\n--------------------\n", disk.Partition, disk.Usage, disk.Available, disk.Total, disk.Percentage, disk.Mountpoint)
+	}
+	notifier.TelegramNotifier(message)
 }

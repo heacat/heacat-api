@@ -1,3 +1,14 @@
+alarm:
+  servernickname: "server1"
+  telegram:
+    enabled: true
+    token: "123456789:ABCDEF"
+    chatid: "-123456789"
+    MessageThreadID: 1
+  slack:
+    enabled: true
+    webhookurl: "http://example.com/webhook"
+    
 api:
   host: localhost
   port: 8080
@@ -20,6 +31,3 @@ memory:
 network:
   interfaces: ["eth0", "eth1"]
   checkinterval: 5
-
-alarmwebhookurl: "http://example.com/webhook"
-servernickname: "server1"
