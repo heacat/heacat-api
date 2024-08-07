@@ -1,29 +1,29 @@
-alarm:
-  servernickname: "server1"
-  telegram:
-    enabled: false
-    token: "123456789:ABCDEF"
-    chatid: "-123456789"
-    messagethreadid: 1
-  slack:
-    enabled: true
-    webhookurl: "https://zulip.example.com/api/v1/external/slack_incoming?api_key=APIKEY&stream=alarm&topic=server1"
+alarm:                                                                    # Alarm configuration
+  servernickname: "server1"                                               # Server nickname for alarm message
+  telegram:                                                               # Telegram configuration
+    enabled: false                                                        # Enable or disable telegram alarm
+    token: "123456789:ABCDEF"                                             # Telegram bot token (from BotFather)
+    chatid: "-123456789"                                                  # Telegram chat id 
+    messagethreadid: 1                                                    # Telegram message thread id
+  slack:                                                                  # Slack configuration
+    enabled: true                                                         # Enable or disable slack alarm
+    webhookurl: "https://example.com/"                                    # Slack webhook url
 
-api:
-  host: localhost
-  port: 8080
+api:                                                                      # API configuration
+  host: localhost                                                         # API host
+  port: 8080                                                              # API port
 
-disk:
-  filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs", "nfs"]
-  partuselimit: 90
-  checkinterval: 5
-  unit: "GB"
+disk:                                                                     # Disk configuration
+  filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs", "nfs"]     # Filesystems to monitor
+  partuselimit: 90                                                        # Partition use limit (percentage)
+  checkinterval: 5                                                        # Check interval (minutes)
+  unit: "GB"                                                              # Conversion unit
 
-cpu:
-  loadlimit: 20
-  checkinterval: 5
+cpu:                                                                      # CPU configuration
+  loadlimit: 20                                                           # CPU load limit (percentage)
+  checkinterval: 5                                                        # Check interval (minutes)
 
-memory:
-  uselimit: 50
-  checkinterval: 5
-  unit: "MB"
+memory:                                                                   # Memory configuration
+  uselimit: 50                                                            # Memory use limit (percentage)
+  checkinterval: 5                                                        # Check interval (minutes)
+  unit: "MB"                                                              # Conversion unit
