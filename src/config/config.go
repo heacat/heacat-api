@@ -43,10 +43,6 @@ type Config_t struct {
 		CheckInterval int
 		Unit          string
 	}
-	Network struct {
-		Interfaces    []string
-		CheckInterval int
-	}
 }
 
 func InitConfig() {

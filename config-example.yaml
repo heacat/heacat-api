@@ -1,33 +1,29 @@
 alarm:
   servernickname: "server1"
   telegram:
-    enabled: true
+    enabled: false
     token: "123456789:ABCDEF"
     chatid: "-123456789"
     messagethreadid: 1
   slack:
     enabled: true
-    webhookurl: "http://example.com/webhook"
-    
+    webhookurl: "https://zulip.example.com/api/v1/external/slack_incoming?api_key=APIKEY&stream=alarm&topic=server1"
+
 api:
   host: localhost
   port: 8080
 
 disk:
-  filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs"]
+  filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs", "nfs"]
   partuselimit: 90
   checkinterval: 5
   unit: "GB"
 
 cpu:
-  loadlimit: 4
+  loadlimit: 20
   checkinterval: 5
 
 memory:
-  uselimit: 90
+  uselimit: 50
   checkinterval: 5
-  unit: "GB"
-
-network:
-  interfaces: ["eth0", "eth1"]
-  checkinterval: 5
+  unit: "MB"

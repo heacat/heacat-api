@@ -25,32 +25,35 @@ func InitAPI() {
 	router := gin.Default()
 
 	router.GET("/api/v1/cpu", func(c *gin.Context) {
-		cpu := utils.GetCPUInfo()
-		c.JSON(200, gin.H{"cpu": cpu})
+		c.JSON(200, gin.H{"cpu": utils.GetCPUInfo()})
 	})
 	router.GET("/api/v1/gpu", func(ctx *gin.Context) {
-		gpu := utils.GetGPUInfo()
-		ctx.JSON(200, gin.H{"gpu": gpu})
+		ctx.JSON(200, gin.H{"gpu": utils.GetGPUInfo()})
 	})
 	router.GET("/api/v1/disk", func(ctx *gin.Context) {
-		disk := utils.GetDiskInfo(config.Config.Disk.Unit)
-		ctx.JSON(200, gin.H{"disk": disk})
+		ctx.JSON(200, gin.H{"disk": utils.GetDiskInfo(config.Config.Disk.Unit)})
 	})
 	router.GET("/api/v1/memory", func(c *gin.Context) {
-		memory := utils.GetMemoryInfo(config.Config.Memory.Unit)
-		c.JSON(200, gin.H{"memory": memory})
+		c.JSON(200, gin.H{"memory": utils.GetMemoryInfo(config.Config.Memory.Unit)})
 	})
 	router.GET("/api/v1/network", func(ctx *gin.Context) {
-		network := utils.GetNetworkInfo()
-		ctx.JSON(200, gin.H{"network": network})
+		ctx.JSON(200, gin.H{"network": utils.GetNetworkInfo()})
 	})
 	router.GET("/api/v1/sysinfo", func(ctx *gin.Context) {
-		sysinfo := utils.GetSysInfo()
-		ctx.JSON(200, gin.H{"sysinfo": sysinfo})
+		ctx.JSON(200, gin.H{"sysinfo": utils.GetSysInfo()})
 	})
-	router.GET("/api/v1/check/disk", control.CheckDiskStatus)
-	router.GET("/api/v1/check/memory", control.CheckMemoryStatus)
-	router.GET("/api/v1/check/cpu", control.CheckCPUStatus)
+	router.GET("/api/v1/check/disk", func(ctx *gin.Context) {
+		arr, message := control.CheckDiskStatus()
+		ctx.JSON(200, gin.H{"disk": arr, "message": message})
+	})
+	router.GET("/api/v1/check/memory", func(ctx *gin.Context) {
+		arr, message := control.CheckMemoryStatus()
+		ctx.JSON(200, gin.H{"memory": arr, "message": message})
+	})
+	router.GET("/api/v1/check/cpu", func(ctx *gin.Context) {
+		arr, message := control.CheckCPUStatus()
+		ctx.JSON(200, gin.H{"cpu": arr, "message": message})
+	})
 	router.GET("/", func(c *gin.Context) {
 		b, err := json.Marshal(routes)
 		if err != nil {
