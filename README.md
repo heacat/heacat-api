@@ -4,20 +4,37 @@
 HeaCat-API is a system monitoring API that provides information about the system's health and performance. It is designed to be used by system administrators and developers to monitor the system's health and performance. The API provides information about the system's CPU usage, memory usage, disk usage, network usage and more. It also provides information about the system's uptime, load average, and other system metrics.
 
 ## Features
-coming soon...
+- CPU monitoring
+- Memory monitoring
+- Disk monitoring (W.I.P)
+- System Information API
 
 ## Installation
-coming soon...
+1. Clone the repository
+```bash
+git clone https://github.com/heacat/heacat-api.git
+```
+2. Install the dependencies
+```bash
+cd heacat-api
+go mod tidy
+```
+3. Build the project
+```bash
+go build src/main.go
+```
+4. Run the project
+```bash
+./main
+```
 
 ## Usage
-coming soon...
-
-## TODO
-- [ ] Create a config parser and example config template
-- [ ] Create a logger
-- [ ] Create a notifier for anormally states
-- [ ] Create an api endpoint (or socket)
-- [ ] Add disk monitoring
-- [ ] Add system load average monitoring
-- [ ] Add network monitoring
-- [ ] Add system uptime monitoring
+1. Create a config file
+```bash
+cp config-example.yaml config.yaml
+nano config.yaml                  # or use your favorite text editor
+```
+2. Run the program
+```bash
+./main
+```

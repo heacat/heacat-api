@@ -1,0 +1,29 @@
+alarm:                                                                    # Alarm configuration
+  servernickname: "server1"                                               # Server nickname for alarm message
+  telegram:                                                               # Telegram configuration
+    enabled: false                                                        # Enable or disable telegram alarm
+    token: "123456789:ABCDEF"                                             # Telegram bot token (from BotFather)
+    chatid: "-123456789"                                                  # Telegram chat id 
+    messagethreadid: 1                                                    # Telegram message thread id
+  slack:                                                                  # Slack configuration
+    enabled: true                                                         # Enable or disable slack alarm
+    webhookurl: "https://example.com/"                                    # Slack webhook url
+
+api:                                                                      # API configuration
+  host: localhost                                                         # API host
+  port: 8080                                                              # API port
+
+disk:                                                                     # Disk configuration
+  filesystems: ["ext2", "ext3", "ext4", "xfs", "btrfs", "zfs", "nfs"]     # Filesystems to monitor
+  partuselimit: 90                                                        # Partition use limit (percentage)
+  checkinterval: 5                                                        # Check interval (minutes)
+  unit: "GB"                                                              # Conversion unit
+
+cpu:                                                                      # CPU configuration
+  loadlimit: 20                                                           # CPU load limit (percentage)
+  checkinterval: 5                                                        # Check interval (minutes)
+
+memory:                                                                   # Memory configuration
+  uselimit: 50                                                            # Memory use limit (percentage)
+  checkinterval: 5                                                        # Check interval (minutes)
+  unit: "MB"                                                              # Conversion unit
