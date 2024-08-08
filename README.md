@@ -38,3 +38,15 @@ nano config.yaml                  # or use your favorite text editor
 ```bash
 ./main
 ```
+
+## API Endpoints
+- `/api/v1/sysinfo` - Get system information
+- `/api/v1/cpu` - Get CPU information
+- `/api/v1/gpu` - Get GPU information
+- `/api/v1/memory` - Get memory information
+- `/api/v1/disk` - Get disk information
+- `/api/v1/network` - Get network information
+- `/api/v1/check/cpu` - Check CPU usage
+- `/api/v1/check/memory` - Check memory usage
+- `/api/v1/check/disk` - Check disk usage
+- `/` - API Map
